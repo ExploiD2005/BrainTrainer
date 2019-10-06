@@ -3,6 +3,7 @@ package com.example.braintrainer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -40,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
         options.add(textViewOpinion1);
         options.add(textViewOpinion2);
         options.add(textViewOpinion3);
+        playNext();
+    }
+
+    private void playNext() {
         generateQuestion();
         for (int i = 0; i < options.size(); i++) {
             if (i == rightAnswerPosition) {
@@ -73,5 +78,9 @@ public class MainActivity extends AppCompatActivity {
         } while (result == rightAnswer);
         return result;
 
+    }
+
+    public void onClickAnswer(View view) {
+        playNext();
     }
 }
