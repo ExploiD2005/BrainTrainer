@@ -3,8 +3,10 @@ package com.example.braintrainer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,21 +51,29 @@ public class MainActivity extends AppCompatActivity {
         options.add(textViewOpinion2);
         options.add(textViewOpinion3);
         playNext();
-        CountDownTimer timer = new CountDownTimer(6000, 1000) {
+        CountDownTimer timer = new CountDownTimer(20000, 1000) {
             @Override
             public void onTick(long l) {
                 textViewTimer.setText(getTime(l));
-
+                if (l <10000) {
+                    textViewTimer.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+                }
             }
 
             @Override
             public void onFinish() {
                 gameOver = true;
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                int max = preferences.getInt("max", 0);
+                if (countOfRightAnswers >= max) {
+                    preferences.edit().putInt("max", countOfRightAnswers).apply();
+                }
                 Intent intent = new Intent(MainActivity.this, ScoreActivity.class);
                 intent.putExtra("result", countOfRightAnswers);
                 startActivity(intent);
             }
         };
+        timer.start();
     }
 
     private void playNext() {
