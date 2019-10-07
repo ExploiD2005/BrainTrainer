@@ -2,6 +2,7 @@ package com.example.braintrainer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -57,9 +58,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-
+                gameOver = true;
+                Intent intent = new Intent(MainActivity.this, ScoreActivity.class);
+                intent.putExtra("result", countOfRightAnswers);
+                startActivity(intent);
             }
-        }
+        };
     }
 
     private void playNext() {
